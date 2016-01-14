@@ -1,27 +1,3 @@
-### react-native-root-siblings
----
-
-Add sibling elements after your app root
-The created sibling elements are on the top of react-native elements in your app.
-This can be used to create a `Modal` component or something should be on top of app.
-
-### Add it to your project
-
-1. Run `npm install react-native-root-siblings --save`
-2. Import library **before** `AppRegistry.registerComponent`
-
-```javascript
-...do something there
-**import 'react-native-root-siblings';**
-...do something else
-
-*AppRegistry.registerComponent('MyApp', () => MyApp);*
-
-```
-
-### USAGE
-
-```
 'use strict';
 import React, {
     AppRegistry,
@@ -82,7 +58,7 @@ class SiblingsExample extends Component{
                 style={styles.button}
                 onPress={this.updateSibling}
             >
-                <Text style={styles.buttonText}>Update element</Text>
+                <Text style={styles.buttonText}>Update last element</Text>
             </TouchableHighlight>
         </View>;
     }
@@ -114,16 +90,6 @@ var styles = StyleSheet.create({
         height: 20,
         width: Dimensions.get('window').width / 2,
         backgroundColor: 'blue',
-        opacity: 0.5
+        opacity: 0.9
     }
 });
-
-```
-
-![screen shoot](./Examples/screen-shoot.gif)
-
-### RUN EXAMPLE
-
-1. fork this repository
-2. change dictionary to `Examples`
-3. run `npm i`
