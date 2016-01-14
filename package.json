@@ -1,0 +1,19 @@
+{
+    "name": "react-native-root-siblings",
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:magicismight/react-native-root-siblings.git"
+    },
+    "version": "1.0.0",
+    "main": "./index.js",
+    "description": "react native root sibling elements manager",
+    "dependencies": {
+        "jquery-callbacks": "^0.0.1"
+    },
+    "keywords": [
+        "react-component",
+        "react-native",
+        "ios",
+        "android"
+    ]
+}
