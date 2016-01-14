@@ -7,17 +7,7 @@ This can be used to create a `Modal` component or something should be over your 
 
 ### Add it to your project
 
-1. Run `npm install react-native-root-siblings --save`
-2. Import library **before** `AppRegistry.registerComponent`
-
-```javascript
-...do something there
-import 'react-native-root-siblings';
-...do something else
-
-AppRegistry.registerComponent('MyApp', () => MyApp);
-
-```
+Run `npm install react-native-root-siblings --save`
 
 ### USAGE
 This library can add element above the root app component registered by `AppRegistry.registerComponent`.
