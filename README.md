@@ -70,8 +70,14 @@ modal.destroy();
 ```
 
 #### Example
-TODO:
 
+##### IOS
+----
+![Example](./Example/screenShoot.ios.gif)
+
+##### Android
+----
+![Example](./Example/screenShoot.android.gif)
 #### Notice
 
 Modal element created by this library can`t cover other `native` Modal elements,like: [Official Modal Element](http://facebook.github.io/react-native/docs/modal.html#content)
