@@ -1,10 +1,11 @@
 {
-    "version": "1.0.5",
+    "version": "1.0.6",
     "name": "react-native-root-siblings",
     "repository": {
         "type": "git",
         "url": "git@github.com:magicismight/react-native-root-siblings.git"
     },
+    "license": "MIT",
     "main": "./index.js",
     "description": "react native root sibling elements manager",
     "dependencies": {
