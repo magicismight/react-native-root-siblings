@@ -4,6 +4,7 @@
 
 # Xcode
 #
+build/
 *.pbxuser
 !default.pbxuser
 *.mode1v3
@@ -18,22 +19,23 @@ xcuserdata
 DerivedData
 *.hmap
 *.ipa
-gradle
+*.xcuserstate
 project.xcworkspace
 
 # Android/IJ
 #
+*.iml
 .idea
 .gradle
 local.properties
-build
 
 # node.js
 #
-node_modules
+node_modules/
 npm-debug.log
 
-
-# webstorm
-#
-*.iml
+# BUCK
+buck-out/
+\.buckd/
+android/app/libs
+android/keystores/debug.keystore

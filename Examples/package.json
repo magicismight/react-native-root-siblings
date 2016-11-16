@@ -6,7 +6,8 @@
     "start": "react-native start"
   },
   "dependencies": {
-    "react-native": "^0.17.0",
-    "react-native-root-siblings": "^1.0.3"
+    "react": "^15.3.1",
+    "react-native": "^0.34.0",
+    "react-native-root-siblings": "../"
   }
 }

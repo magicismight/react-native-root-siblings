@@ -1,17 +1,13 @@
 {
-    "version": "1.0.8",
+    "version": "1.1.0",
     "name": "react-native-root-siblings",
     "repository": {
         "type": "git",
         "url": "git@github.com:magicismight/react-native-root-siblings.git"
     },
     "license": "MIT",
-    "main": "./index.js",
+    "main": "./lib/SiblingsManager",
     "description": "react native root sibling elements manager",
-    "dependencies": {
-        "jquery-callbacks": "^0.0.1",
-        "lodash": "^3.10.0"
-    },
     "keywords": [
         "react-component",
         "react-native",
