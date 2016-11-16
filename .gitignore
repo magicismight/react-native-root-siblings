@@ -37,3 +37,5 @@ npm-debug.log
 # webstorm
 #
 *.iml
+
+Examples/ios/.DS_Store
