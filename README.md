@@ -5,6 +5,13 @@ Add sibling elements after your app root element.
 The created sibling elements are above the rest of your app elements.
 This can be used to create a `Modal` component or something should be over your app.
 
+### Version
+
+Use correct version for your react native installation.
+
+- 2.0.0: React Native >= 0.48.x
+- 1.x.x: React Native < 0.48.x
+
 ### Add it to your project
 
 Run `npm install react-native-root-siblings --save`
