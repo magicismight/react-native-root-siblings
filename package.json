@@ -9,7 +9,8 @@
     "main": "./lib/SiblingsManager",
     "description": "react native root sibling elements manager",
     "dependencies": {
-        "static-container": "^1.0.0"
+        "static-container": "^1.0.0",
+        "wolfy87-eventemitter": "^5.2.2"
     },
     "keywords": [
         "react-component",
