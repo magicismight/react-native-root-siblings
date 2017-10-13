@@ -9,6 +9,7 @@
     "main": "./lib/SiblingsManager",
     "description": "react native root sibling elements manager",
     "dependencies": {
+        "fbemitter": "^2.1.1",
         "static-container": "^1.0.0"
     },
     "keywords": [
