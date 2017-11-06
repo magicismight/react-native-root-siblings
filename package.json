@@ -1,16 +1,14 @@
 {
-    "version": "2.0.0",
+    "version": "2.1.1",
     "name": "react-native-root-siblings",
     "repository": {
         "type": "git",
         "url": "git@github.com:magicismight/react-native-root-siblings.git"
     },
     "license": "MIT",
-    "main": "./lib/SiblingsManager",
     "description": "react native root sibling elements manager",
     "dependencies": {
-        "static-container": "^1.0.0",
-        "wolfy87-eventemitter": "^5.2.2"
+        "static-container": "^1.0.0"
     },
     "keywords": [
         "react-component",
