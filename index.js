@@ -21,9 +21,7 @@ AppRegistry.setWrapperComponentProvider(function () {
 
     constructor(props) {
       super(props);
-      this.state = {
-        siblings: {}
-      }
+      this._siblings = {};
     }
 
     componentWillMount() {
@@ -35,24 +33,23 @@ AppRegistry.setWrapperComponentProvider(function () {
     }
 
     _updatedSiblings = {};
+    _siblings = {};
 
     _update = (id, element, callback) => {
-      const siblings = { ...this.state.siblings };
-
+      const siblings = { ...this._siblings };
       if (siblings[id] && !element) {
         delete siblings[id];
       } else if (element) {
         siblings[id] = element;
-        this._updatedSiblings[id] = true;
       }
 
-      this.setState({
-        siblings
-      }, callback);
+      this._updatedSiblings[id] = true;
+      this._siblings = siblings;
+      this.forceUpdate(callback);
     };
 
     render() {
-      const { siblings } = this.state;
+      const siblings = this._siblings;
       const elements = [];
       Object.keys(siblings).forEach((key) => {
         const element = siblings[key];
@@ -82,7 +79,7 @@ AppRegistry.setWrapperComponentProvider(function () {
 export default class {
   constructor(element, callback) {
     const id = uuid++;
-    function update (element, callback) {
+    function update(element, callback) {
       triggers.forEach(function (trigger) {
         trigger(id, cloneElement(element, {
           style: [element.props.style, styles.offStream]
