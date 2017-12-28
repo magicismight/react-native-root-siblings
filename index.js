@@ -5,10 +5,6 @@ import StaticContainer from 'static-container';
 const styles = StyleSheet.create({
   container: {
     flex: 1
-  },
-
-  offStream: {
-    position: 'absolute'
   }
 });
 
@@ -63,7 +59,6 @@ AppRegistry.setWrapperComponentProvider(function () {
         );
       });
       this._updatedSiblings = {};
-
       return (
         <View style={styles.container}>
           <StaticContainer shouldUpdate={false}>
@@ -81,9 +76,7 @@ export default class {
     const id = uuid++;
     function update(element, callback) {
       triggers.forEach(function (trigger) {
-        trigger(id, cloneElement(element, {
-          style: [element.props.style, styles.offStream]
-        }), callback);
+        trigger(id, element, callback);
       });
     };
 
