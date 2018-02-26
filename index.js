@@ -61,9 +61,7 @@ AppRegistry.setWrapperComponentProvider(function () {
       this._updatedSiblings = {};
       return (
         <View style={styles.container}>
-          <StaticContainer shouldUpdate={false}>
-            {this.props.children}
-          </StaticContainer>
+          {this.props.children}
           {elements}
         </View>
       );
