@@ -1,5 +1,5 @@
 {
-    "version": "3.0.0",
+    "version": "3.1.0",
     "name": "react-native-root-siblings",
     "repository": {
         "type": "git",
@@ -8,7 +8,8 @@
     "license": "MIT",
     "description": "react native root sibling elements manager",
     "dependencies": {
-        "static-container": "^1.0.0"
+        "static-container": "^1.0.0",
+        "react-redux": "*"
     },
     "keywords": [
         "react-component",

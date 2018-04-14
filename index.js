@@ -1,6 +1,7 @@
 import React, { Component, cloneElement } from 'react';
 import { StyleSheet, View, AppRegistry } from 'react-native';
 import StaticContainer from 'static-container';
+import { Provider } from 'react-redux';
 
 const styles = StyleSheet.create({
   container: {
@@ -30,33 +31,48 @@ AppRegistry.setWrapperComponentProvider(function () {
 
     _updatedSiblings = {};
     _siblings = {};
+    _stores = {};
 
-    _update = (id, element, callback) => {
+    _update = (id, element, callback, store) => {
       const siblings = { ...this._siblings };
+      const stores = { ...this._stores };
       if (siblings[id] && !element) {
         delete siblings[id];
+        delete stores[id];
       } else if (element) {
         siblings[id] = element;
+        stores[id] = store;
       }
 
       this._updatedSiblings[id] = true;
       this._siblings = siblings;
+      this._stores = stores;
       this.forceUpdate(callback);
     };
 
     render() {
       const siblings = this._siblings;
+      const stores = this._stores;
       const elements = [];
       Object.keys(siblings).forEach((key) => {
         const element = siblings[key];
-        element && elements.push(
-          <StaticContainer
-            key={`root-sibling-${key}`}
-            shouldUpdate={!!this._updatedSiblings[key]}
-          >
-            {element}
-          </StaticContainer>
-        );
+        if (element) {
+          const sibling = (
+            <StaticContainer
+              key={`root-sibling-${key}`}
+              shouldUpdate={!!this._updatedSiblings[key]}
+            >
+              {element}
+            </StaticContainer>
+          );
+
+          const store = stores[key];
+          elements.push(store ? (
+            <Provider store={store} key={`root-sibling-${key}-provider`}>
+              {sibling}
+            </Provider>
+          ) : sibling);
+        }
       });
       this._updatedSiblings = {};
       return (
@@ -72,11 +88,11 @@ AppRegistry.setWrapperComponentProvider(function () {
 })
 
 export default class {
-  constructor(element, callback) {
+  constructor(element, callback, store) {
     const id = uuid++;
-    function update(element, callback) {
+    function update(element, callback, store) {
       triggers.forEach(function (trigger) {
-        trigger(id, element, callback);
+        trigger(id, element, callback, store);
       });
     };
 
@@ -86,7 +102,7 @@ export default class {
       });
     };
 
-    update(element, callback);
+    update(element, callback, store);
     this.update = update;
     this.destroy = destroy;
   }
