@@ -21,7 +21,7 @@ AppRegistry.setWrapperComponentProvider(function () {
       this._siblings = {};
     }
 
-    componentWillMount() {
+    componentDidMount() {
       triggers.push(this._update);
     }
 
