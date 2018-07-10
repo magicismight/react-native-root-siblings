@@ -87,7 +87,7 @@ AppRegistry.setWrapperComponentProvider(function () {
   }
 })
 
-export default class {
+export default class _ {
   constructor(element, callback, store) {
     const id = uuid++;
     function update(element, callback, store) {
