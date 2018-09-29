@@ -19,9 +19,6 @@ AppRegistry.setWrapperComponentProvider(function () {
     constructor(props) {
       super(props);
       this._siblings = {};
-    }
-
-    componentWillMount() {
       triggers.push(this._update);
     }
 
@@ -87,7 +84,7 @@ AppRegistry.setWrapperComponentProvider(function () {
   }
 })
 
-export default class {
+export default class RootSiblings {
   constructor(element, callback, store) {
     const id = uuid++;
     function update(element, callback, store) {
