@@ -3,7 +3,7 @@ declare class RootSiblings {
 
     update(el: JSX.Element, callback?: Function, store?: Object): void;
 
-    destory(callback?: Function): void;
+    destroy(callback?: Function): void;
 }
 
 export = RootSiblings;
