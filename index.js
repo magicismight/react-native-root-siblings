@@ -12,7 +12,14 @@ const styles = StyleSheet.create({
 let uuid = 0;
 const triggers = [];
 
-AppRegistry.setWrapperComponentProvider(function () {
+AppRegistry.setWrapperComponentProvider(function ( appParameters ) {
+  const enable = (appParameters !== undefined
+    && appParameters.initialProps !== undefined
+    && appParameters.initialProps.enableRootSiblings !== undefined) ?
+    !!appParameters.initialProps.enableRootSiblings : true;
+  if (!enable) {
+    return null;
+  }
   return class extends Component {
     static displayName = 'RootSiblingsWrapper';
 
