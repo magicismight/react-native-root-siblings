@@ -1,7 +1,6 @@
 import React, { Component, cloneElement } from 'react';
 import { StyleSheet, View, AppRegistry } from 'react-native';
 import StaticContainer from 'static-container';
-import { Provider } from 'react-redux';
 
 const styles = StyleSheet.create({
   container: {
@@ -12,10 +11,8 @@ const styles = StyleSheet.create({
 let uuid = 0;
 const triggers = [];
 
-AppRegistry.setWrapperComponentProvider(function () {
-  return class extends Component {
-    static displayName = 'RootSiblingsWrapper';
-
+AppRegistry.setWrapperComponentProvider(function() {
+  return class RootSiblingsWrapper extends Component {
     constructor(props) {
       super(props);
       this._siblings = {};
@@ -51,53 +48,53 @@ AppRegistry.setWrapperComponentProvider(function () {
       const siblings = this._siblings;
       const stores = this._stores;
       const elements = [];
-      Object.keys(siblings).forEach((key) => {
+      Object.keys(siblings).forEach(key => {
         const element = siblings[key];
         if (element) {
           const sibling = (
-            <StaticContainer
-              key={`root-sibling-${key}`}
-              shouldUpdate={!!this._updatedSiblings[key]}
-            >
+            <StaticContainer key={`root-sibling-${key}`} shouldUpdate={!!this._updatedSiblings[key]}>
               {element}
             </StaticContainer>
           );
 
           const store = stores[key];
-          elements.push(store ? (
-            <Provider store={store} key={`root-sibling-${key}-provider`}>
-              {sibling}
-            </Provider>
-          ) : sibling);
+          if (store) {
+            const Provider = require('react-redux').Provider;
+            elements.push(
+              <Provider store={store} key={`root-sibling-${key}-provider`}>
+                {sibling}
+              </Provider>
+            );
+          } else {
+            elements.push(sibling);
+          }
         }
       });
       this._updatedSiblings = {};
       return (
         <View style={styles.container}>
-          <StaticContainer shouldUpdate={false}>
-            {this.props.children}
-          </StaticContainer>
+          <StaticContainer shouldUpdate={false}>{this.props.children}</StaticContainer>
           {elements}
         </View>
       );
     }
-  }
-})
+  };
+});
 
 export default class RootSiblings {
   constructor(element, callback, store) {
     const id = uuid++;
     function update(element, callback, store) {
-      triggers.forEach(function (trigger) {
+      triggers.forEach(function(trigger) {
         trigger(id, element, callback, store);
       });
-    };
+    }
 
-    function destroy (callback) {
-      triggers.forEach(function (trigger) {
+    function destroy(callback) {
+      triggers.forEach(function(trigger) {
         trigger(id, null, callback);
       });
-    };
+    }
 
     update(element, callback, store);
     this.update = update;
