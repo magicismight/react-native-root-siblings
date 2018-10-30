@@ -1,20 +1,19 @@
 {
-    "version": "3.1.4",
-    "name": "react-native-root-siblings",
-    "repository": {
-        "type": "git",
-        "url": "git@github.com:magicismight/react-native-root-siblings.git"
-    },
-    "license": "MIT",
-    "description": "react native root sibling elements manager",
-    "dependencies": {
-        "static-container": "^1.0.0",
-        "react-redux": "*"
-    },
-    "keywords": [
-        "react-component",
-        "react-native",
-        "ios",
-        "android"
-    ]
+  "version": "3.1.5",
+  "name": "react-native-root-siblings",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:magicismight/react-native-root-siblings.git"
+  },
+  "license": "MIT",
+  "description": "react native root sibling elements manager",
+  "dependencies": {
+    "static-container": "^1.0.0"
+  },
+  "keywords": [
+    "react-component",
+    "react-native",
+    "ios",
+    "android"
+  ]
 }
