@@ -1,4 +1,4 @@
-import React, { Component, cloneElement } from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, View, AppRegistry } from 'react-native';
 import StaticContainer from 'static-container';
 
@@ -7,6 +7,16 @@ const styles = StyleSheet.create({
     flex: 1
   }
 });
+
+class Provider extends Component {
+  getChildContext() {
+    return { store: this.props.store };
+  }
+
+  render() {
+    return this.props.children;
+  }
+}
 
 AppRegistry.setWrapperComponentProvider(function() {
   return function RootSiblingsWrapper(props) {
@@ -67,7 +77,6 @@ class RootSiblings extends Component {
 
         const store = stores[key];
         if (store) {
-          const Provider = require('react-redux').Provider;
           elements.push(
             <Provider store={store} key={`root-sibling-${key}-provider`}>
               {sibling}
