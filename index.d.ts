@@ -1,9 +1,9 @@
 declare class RootSiblings {
-    constructor(el: JSX.Element, callback?: Function, store?: Object);
+    constructor(el: JSX.Element, callback?: () => void, store?: object);
 
-    update(el: JSX.Element, callback?: Function, store?: Object): void;
+    update(el: JSX.Element, callback?: () => void, store?: object): void;
 
-    destroy(callback?: Function): void;
+    destroy(callback?: () => void): void;
 }
 
 export = RootSiblings;
