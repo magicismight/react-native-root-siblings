@@ -8,6 +8,7 @@
   "license": "MIT",
   "description": "react native root sibling elements manager",
   "dependencies": {
+    "prop-types": "^15.6.2",
     "static-container": "^1.0.0"
   },
   "keywords": [
