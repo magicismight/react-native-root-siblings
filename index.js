@@ -40,15 +40,21 @@ AppRegistry.setWrapperComponentProvider(function() {
 
 let uuid = 0;
 const triggers = [];
+const pendingSiblings = {};
 class RootSiblings extends Component {
   _updatedSiblings = {};
   _siblings = {};
   _stores = {};
 
-  constructor(props) {
-    super(props);
-    this._siblings = {};
+  componentDidMount() {
     triggers.push(this._update);
+    Object.keys(pendingSiblings).forEach((id) => {
+      const sibling = pendingSiblings[id];
+      if (sibling) {
+        this._update(id, ...sibling);
+        delete pendingSiblings[id];
+      }
+    });
   }
 
   componentWillUnmount() {
@@ -105,15 +111,23 @@ export default class RootSiblingManager {
   constructor(element, callback, store) {
     const id = uuid++;
     function update(element, callback, store) {
-      triggers.forEach(function(trigger) {
-        trigger(id, element, callback, store);
-      });
+      if (triggers.length) {
+        triggers.forEach(function(trigger) {
+          trigger(id, element, callback, store);
+        });
+      } else {
+        pendingSiblings[id] = [element, callback, store];
+      }
     }
 
     function destroy(callback) {
-      triggers.forEach(function(trigger) {
-        trigger(id, null, callback);
-      });
+      if (pendingSiblings[id]) {
+        delete pendingSiblings[id];
+      } else {
+        triggers.forEach(function(trigger) {
+          trigger(id, null, callback);
+        });
+      }
     }
 
     update(element, callback, store);
