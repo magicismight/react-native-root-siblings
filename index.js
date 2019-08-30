@@ -31,7 +31,7 @@ if (!global.__rootSiblingsInjected) {
   AppRegistry.setWrapperComponentProvider(function() {
     return function RootSiblingsWrapper(props) {
       return (
-        <View style={styles.container}>
+        <View style={styles.container} pointerEvents="box-none">
           {props.children}
           <RootSiblings />
         </View>
