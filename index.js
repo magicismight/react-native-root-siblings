@@ -27,16 +27,18 @@ class Provider extends Component {
   }
 }
 
+function RootSiblingsWrapper(props) {
+  return (
+    <View style={styles.container} pointerEvents="box-none">
+      {props.children}
+      <RootSiblings />
+    </View>
+  );
+};
+
 if (!global.__rootSiblingsInjected) {
   AppRegistry.setWrapperComponentProvider(function() {
-    return function RootSiblingsWrapper(props) {
-      return (
-        <View style={styles.container} pointerEvents="box-none">
-          {props.children}
-          <RootSiblings />
-        </View>
-      );
-    };
+    return RootSiblingsWrapper;
   });
   global.__rootSiblingsInjected = true;
 }
