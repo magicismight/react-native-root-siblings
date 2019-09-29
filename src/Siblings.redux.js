@@ -9,17 +9,21 @@ const styles = StyleSheet.create({
   }
 });
 
+function RootSiblingsWrapper(props) {
+  return (
+    <View style={styles.container} pointerEvents="box-none">
+      {props.children}
+      <RootSiblings />
+    </View>
+  );
+};
 
-AppRegistry.setWrapperComponentProvider(function() {
-  return function RootSiblingsWrapper(props) {
-    return (
-      <View style={styles.container}>
-        {props.children}
-        <RootSiblings />
-      </View>
-    );
-  };
-});
+if (!global.__rootSiblingsInjected) {
+  AppRegistry.setWrapperComponentProvider(function() {
+    return RootSiblingsWrapper;
+  });
+  global.__rootSiblingsInjected = true;
+}
 
 let uuid = 0;
 const triggers = [];
@@ -68,7 +72,10 @@ class RootSiblings extends Component {
       const element = siblings[key];
       if (element) {
         const sibling = (
-          <StaticContainer key={`root-sibling-${key}`} shouldUpdate={!!this._updatedSiblings[key]}>
+          <StaticContainer
+            key={`root-sibling-${key}`}
+            shouldUpdate={!!this._updatedSiblings[key]}
+          >
             {element}
           </StaticContainer>
         );

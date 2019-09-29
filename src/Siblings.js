@@ -9,16 +9,21 @@ const styles = StyleSheet.create({
 });
 
 
-AppRegistry.setWrapperComponentProvider(function() {
-  return function RootSiblingsWrapper(props) {
-    return (
-      <View style={styles.container}>
-        {props.children}
-        <RootSiblings />
-      </View>
-    );
-  };
-});
+function RootSiblingsWrapper(props) {
+  return (
+    <View style={styles.container} pointerEvents="box-none">
+      {props.children}
+      <RootSiblings />
+    </View>
+  );
+};
+
+if (!global.__rootSiblingsInjected) {
+  AppRegistry.setWrapperComponentProvider(function() {
+    return RootSiblingsWrapper;
+  });
+  global.__rootSiblingsInjected = true;
+}
 
 let uuid = 0;
 const triggers = [];
