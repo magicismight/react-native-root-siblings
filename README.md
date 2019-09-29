@@ -10,8 +10,14 @@ This can be used to create a `Modal` component or something should be over your 
 # BREAKING CHANGE
 
 ## 4.x
-From 4.0 the redux context injection has been removed from the main module specified by package.json.
-If you want to pass redux store into sibling content, you have to make some changes in your import code.
+From 4.0 the redux context injection is not enabled by default, should be enabled with a store provider.
+
+```
+// this should be called at the very beginning of your application
+import { enableStoreProvider } from 'react-native-root-siblings';
+import { Provider } from 'react-redux';
+enableStoreProvider(Provider);
+```
 
 Change:
 ```

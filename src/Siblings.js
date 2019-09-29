@@ -8,7 +8,6 @@ const styles = StyleSheet.create({
   }
 });
 
-
 function RootSiblingsWrapper(props) {
   return (
     <View style={styles.container} pointerEvents="box-none">
@@ -25,12 +24,14 @@ if (!global.__rootSiblingsInjected) {
   global.__rootSiblingsInjected = true;
 }
 
+let Provider = null;
 let uuid = 0;
 const triggers = [];
 const pendingSiblings = {};
 class RootSiblings extends Component {
   _updatedSiblings = {};
   _siblings = {};
+  _stores = {};
 
   componentDidMount() {
     triggers.push(this._update);
@@ -47,31 +48,48 @@ class RootSiblings extends Component {
     triggers.splice(triggers.indexOf(this._update), 1);
   }
 
-  _update = (id, element, callback) => {
+  _update = (id, element, callback, store) => {
     const siblings = { ...this._siblings };
+    const stores = { ...this._stores };
     if (siblings[id] && !element) {
       delete siblings[id];
+      delete stores[id];
     } else if (element) {
       siblings[id] = element;
+      stores[id] = store;
     }
     this._updatedSiblings[id] = true;
     this._siblings = siblings;
+    this._stores = stores;
     this.forceUpdate(callback);
   };
 
   render() {
     const siblings = this._siblings;
+    const stores = this._stores;
     const elements = [];
     Object.keys(siblings).forEach(key => {
       const element = siblings[key];
       if (element) {
         const sibling = (
-          <StaticContainer key={`root-sibling-${key}`} shouldUpdate={!!this._updatedSiblings[key]}>
+          <StaticContainer
+            key={`root-sibling-${key}`}
+            shouldUpdate={!!this._updatedSiblings[key]}
+          >
             {element}
           </StaticContainer>
         );
 
-        elements.push(sibling);
+        const store = stores[key];
+        if (store && Provider) {
+          elements.push(
+            <Provider store={store} key={`root-sibling-${key}-provider`}>
+              {sibling}
+            </Provider>
+          );
+        } else {
+          elements.push(sibling);
+        }
       }
     });
     this._updatedSiblings = {};
@@ -79,16 +97,20 @@ class RootSiblings extends Component {
   }
 }
 
+export function enableStoreProvider(StoreProvider) {
+  Provider = StoreProvider;
+}
+
 export default class RootSiblingManager {
-  constructor(element, callback) {
+  constructor(element, callback, store) {
     const id = uuid++;
-    function update(element, callback) {
+    function update(element, callback, store) {
       if (triggers.length) {
         triggers.forEach(function(trigger) {
-          trigger(id, element, callback);
+          trigger(id, element, callback, store);
         });
       } else {
-        pendingSiblings[id] = [element, callback];
+        pendingSiblings[id] = [element, callback, store];
       }
     }
 
@@ -102,8 +124,9 @@ export default class RootSiblingManager {
       }
     }
 
-    update(element, callback);
+    update(element, callback, store);
     this.update = update;
     this.destroy = destroy;
   }
 }
+
