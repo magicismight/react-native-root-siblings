@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { StyleSheet, View, AppRegistry } from 'react-native';
-import StaticContainer from 'static-container';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import { StyleSheet, View, AppRegistry } from "react-native";
+import StaticContainer from "static-container";
+import PropTypes from "prop-types";
 
 const styles = StyleSheet.create({
   container: {
@@ -14,8 +14,8 @@ class Provider extends Component {
     store: PropTypes.shape({
       subscribe: PropTypes.func.isRequired,
       dispatch: PropTypes.func.isRequired,
-      getState: PropTypes.func.isRequired,
-    }),
+      getState: PropTypes.func.isRequired
+    })
   };
 
   getChildContext() {
@@ -27,16 +27,21 @@ class Provider extends Component {
   }
 }
 
-AppRegistry.setWrapperComponentProvider(function() {
-  return function RootSiblingsWrapper(props) {
-    return (
-      <View style={styles.container}>
-        {props.children}
-        <RootSiblings />
-      </View>
-    );
-  };
-});
+function RootSiblingsWrapper(props) {
+  return (
+    <View style={styles.container} pointerEvents="box-none">
+      {props.children}
+      <RootSiblings />
+    </View>
+  );
+};
+
+if (!global.__rootSiblingsInjected) {
+  AppRegistry.setWrapperComponentProvider(function() {
+    return RootSiblingsWrapper;
+  });
+  global.__rootSiblingsInjected = true;
+}
 
 let uuid = 0;
 const triggers = [];
@@ -85,7 +90,10 @@ class RootSiblings extends Component {
       const element = siblings[key];
       if (element) {
         const sibling = (
-          <StaticContainer key={`root-sibling-${key}`} shouldUpdate={!!this._updatedSiblings[key]}>
+          <StaticContainer
+            key={`root-sibling-${key}`}
+            shouldUpdate={!!this._updatedSiblings[key]}
+          >
             {element}
           </StaticContainer>
         );
