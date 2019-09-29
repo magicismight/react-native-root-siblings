@@ -8,6 +8,22 @@ The created sibling elements are above the rest of your app elements.
 This can be used to create a `Modal` component or something should be over your app.
 
 # BREAKING CHANGE
+
+## 4.x
+From 4.0 the redux context injection has been removed from the main module specified by package.json.
+If you want to pass redux store into sibling content, you have to make some changes in your import code.
+
+Change:
+```
+import Silbings from 'react-native-root-siblings';
+``` 
+
+Into:
+```
+import Siblings from 'react-native-root-siblings/src/Siblings.redux'
+```
+
+## 3.x
 From 3.0 the default style has been removed from the element.
 https://github.com/magicismight/react-native-root-siblings/commit/75b1f65502f41a5ecad0d17fd8d6ebb400365928
 
