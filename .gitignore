@@ -39,3 +39,5 @@ npm-debug.log
 *.iml
 
 Examples/ios/.DS_Store
+
+package-lock.json

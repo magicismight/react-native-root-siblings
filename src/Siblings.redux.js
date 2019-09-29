@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, AppRegistry } from 'react-native';
+import { Provider } from 'react-redux';
 import StaticContainer from 'static-container';
-import PropTypes from 'prop-types';
 
 const styles = StyleSheet.create({
   container: {
@@ -9,23 +9,6 @@ const styles = StyleSheet.create({
   }
 });
 
-class Provider extends Component {
-  static childContextTypes = {
-    store: PropTypes.shape({
-      subscribe: PropTypes.func.isRequired,
-      dispatch: PropTypes.func.isRequired,
-      getState: PropTypes.func.isRequired,
-    }),
-  };
-
-  getChildContext() {
-    return { store: this.props.store };
-  }
-
-  render() {
-    return this.props.children;
-  }
-}
 
 AppRegistry.setWrapperComponentProvider(function() {
   return function RootSiblingsWrapper(props) {
