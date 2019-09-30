@@ -1,15 +1,12 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { AppRegistry } from 'react-native';
 
-import './globals';
-import './react-native';
+import ChildrenWrapper from './ChildrenWrapper';
+import './types/globals';
+import './types/react-native';
 import wrapRootComponent from './wrapRootComponent';
 
-function RootSiblingsWrapper(props: { children?: ReactNode }) {
-  return <>{props.children}</>;
-}
-
-const { Root, manager } = wrapRootComponent(RootSiblingsWrapper);
+const { Root, manager } = wrapRootComponent(ChildrenWrapper);
 
 if (!global.__rootSiblingsInjected && !global.__rootSiblingsDisabled) {
   AppRegistry.setWrapperComponentProvider(() => {
