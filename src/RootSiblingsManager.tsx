@@ -11,7 +11,7 @@ function RootSiblingsWrapper(props: { children?: ReactNode }) {
 
 const { Root, manager } = wrapRootComponent(RootSiblingsWrapper);
 
-if (!global.__rootSiblingsInjected) {
+if (!global.__rootSiblingsInjected && !global.__rootSiblingsDisabled) {
   AppRegistry.setWrapperComponentProvider(() => {
     return Root;
   });
