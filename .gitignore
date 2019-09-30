@@ -41,3 +41,4 @@ npm-debug.log
 Examples/ios/.DS_Store
 
 package-lock.json
+lib/

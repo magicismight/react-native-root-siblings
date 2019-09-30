@@ -1,19 +1,44 @@
 {
-  "version": "4.0.0-beta.2",
+  "version": "4.0.0-beta.3",
   "name": "react-native-root-siblings",
   "repository": {
     "type": "git",
     "url": "git@github.com:magicismight/react-native-root-siblings.git"
   },
   "license": "MIT",
-  "main": "./src/Siblings.js",
+  "main": "./lib/RootSiblingsManager.js",
   "description": "react native root sibling elements manager",
+  "scripts": {
+    "lint": "npx tslint ./src/* --fix",
+    "test": "echo no tests",
+    "precommit": "lint-staged",
+    "build": "npx tsc"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "npm run lint",
+      "git add"
+    ]
+  },
   "dependencies": {
-    "static-container": "^1.0.0"
+    "static-container": "^1.5.1"
+  },
+  "devDependencies": {
+    "@types/react": "^16.9.2",
+    "@types/react-native": "^0.60.14",
+    "husky": "^3.0.5",
+    "lint-staged": "^9.2.1",
+    "np": "^5.1.0",
+    "prettier": "^1.18.2",
+    "typescript": "^3.6.3",
+    "tslint": "5.10.0",
+    "tslint-config-prettier": "1.18.0",
+    "tslint-plugin-prettier": "^2.0.1"
   },
   "keywords": [
     "react-component",
     "react-native",
+    "modal",
     "ios",
     "android"
   ]
