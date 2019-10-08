@@ -12,7 +12,8 @@
     "lint": "npx tslint ./src/* --fix",
     "test": "echo no tests",
     "precommit": "lint-staged",
-    "build": "npx tsc"
+    "build": "npx tsc",
+    "prepublishOnly": "npm run build"
   },
   "lint-staged": {
     "*.ts": [
