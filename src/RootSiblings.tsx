@@ -18,6 +18,10 @@ interface RootSiblingsState {
 
 export default class extends Component<RootSiblingsProps, RootSiblingsState> {
   private updatedSiblings: Set<string> = new Set();
+  private siblingsPool: Array<{
+    id: string;
+    element: ReactNode;
+  }> = [];
 
   constructor(props: RootSiblingsProps) {
     super(props);
@@ -30,9 +34,8 @@ export default class extends Component<RootSiblingsProps, RootSiblingsState> {
   public componentDidMount() {
     this.props.controller.setCallback(
       (id, { change, element, updateCallback }) => {
-        const siblings = Array.from(this.state.siblings);
+        const siblings = Array.from(this.siblingsPool);
         const index = siblings.findIndex(sibling => sibling.id === id);
-
         if (change === RootControllerChanges.Remove) {
           if (index > -1) {
             siblings.splice(index, 1);
@@ -63,6 +66,7 @@ export default class extends Component<RootSiblingsProps, RootSiblingsState> {
           this.updatedSiblings.add(id);
         }
 
+        this.siblingsPool = siblings;
         this.setState(
           {
             siblings
