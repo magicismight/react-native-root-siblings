@@ -10,24 +10,20 @@ This can be used to create a `Modal` component or something should be over your 
 # BREAKING CHANGE
 
 ## 4.x
-From 4.0 the redux context injection is not enabled by default, should be enabled with a store provider.
+From 4.0 the redux store context injection is not enabled by default, the redux store context should be set by a context wrapper.
 
 ```
-// this should be called at the very beginning of your application
-import { enableStoreProvider } from 'react-native-root-siblings';
+import { setSiblingWrapper } from 'react-native-root-siblings';
 import { Provider } from 'react-redux';
-enableStoreProvider(Provider);
+
+// const store = ... get store;
+
+// Call this before using redux context inside RootSiblings.
+setSiblingWrapper((sibling) => <Provider store={store}>{sibling}</Provider>);
 ```
 
-Change:
-```
-import Silbings from 'react-native-root-siblings';
-``` 
+You can also use `setSiblingWrapper` to provide other context into each sibling node.
 
-Into:
-```
-import Siblings from 'react-native-root-siblings/src/Siblings.redux'
-```
 
 ## 3.x
 From 3.0 the default style has been removed from the element.
@@ -39,6 +35,8 @@ Run `npm install react-native-root-siblings --save`
 
 ### USAGE
 This library can add element above the root app component registered by `AppRegistry.registerComponent`.
+
+#### Class API
 
 1. Create sibling element
 
@@ -69,6 +67,25 @@ sibling.destroy();
 ```
 
 This will remove the sibling element.
+
+
+#### Component API
+
+```
+import { RootSiblingProtal } from 'react-native-root-siblings';
+
+
+class extends Component {
+    render() {
+        return (
+            <RootSiblingProtal>
+                <View style={[StyleSheet.absoluteFull, { backgroundColor: 'rgba(0, 0, 0, 0.25)' }]} />
+            </RootSiblingProtal>
+        )
+    }
+}
+
+```
 
 ### EXAMPLE
 
