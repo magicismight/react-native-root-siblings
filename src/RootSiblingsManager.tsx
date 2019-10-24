@@ -1,3 +1,4 @@
+import React from 'react';
 import { FunctionComponent, ReactNode, useEffect, useState } from 'react';
 import { AppRegistry } from 'react-native';
 
