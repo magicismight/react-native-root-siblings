@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from 'react';
+import { FunctionComponent, ReactNode, useEffect, useState } from 'react';
 import { AppRegistry } from 'react-native';
 
 import ChildrenWrapper from './ChildrenWrapper';
@@ -21,23 +21,57 @@ export function setSiblingWrapper(wrapper: (sibling: ReactNode) => ReactNode) {
   siblingWrapper = wrapper;
 }
 
-const { Root, manager } = wrapRootComponent(ChildrenWrapper, renderSibling);
+const { Root, manager: rootManager } = wrapRootComponent(
+  ChildrenWrapper,
+  renderSibling
+);
 let uuid: number = 0;
+const managerStack = [rootManager];
+let currentManager = rootManager;
+
 export default class RootSiblingsManager {
   private id: string;
 
   constructor(element: ReactNode, callback?: () => void) {
     this.id = `root-sibling-${uuid + 1}`;
-    manager.update(this.id, element, callback);
+    currentManager.update(this.id, element, callback);
     uuid++;
   }
 
   public update(element: ReactNode, callback?: () => void) {
-    manager.update(this.id, element, callback);
+    currentManager.update(this.id, element, callback);
   }
 
   public destroy(callback?: () => void) {
-    manager.destroy(this.id, callback);
+    currentManager.destroy(this.id, callback);
+  }
+}
+
+export function RootSiblingParent(props: { children: ReactNode }) {
+  const [SiblingParent, setSiblingParent] = useState<null | FunctionComponent>(
+    null
+  );
+
+  useEffect(() => {
+    return () => {
+      managerStack.pop();
+      currentManager = managerStack[managerStack.length - 1];
+    };
+  }, []);
+
+  if (!SiblingParent) {
+    const { Root: Parent, manager: parentManager } = wrapRootComponent(
+      ChildrenWrapper,
+      renderSibling
+    );
+
+    currentManager = parentManager;
+    managerStack.push(parentManager);
+    setSiblingParent(Parent);
+
+    return <Parent>{props.children}</Parent>;
+  } else {
+    return <SiblingParent>{props.children}</SiblingParent>;
   }
 }
 
