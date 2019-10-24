@@ -72,15 +72,15 @@ This will remove the sibling element.
 #### Component API
 
 ```
-import { RootSiblingProtal } from 'react-native-root-siblings';
+import { RootSiblingPortal } from 'react-native-root-siblings';
 
 
 class extends Component {
     render() {
         return (
-            <RootSiblingProtal>
+            <RootSiblingPortal>
                 <View style={[StyleSheet.absoluteFull, { backgroundColor: 'rgba(0, 0, 0, 0.25)' }]} />
-            </RootSiblingProtal>
+            </RootSiblingPortal>
         )
     }
 }

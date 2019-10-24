@@ -41,7 +41,7 @@ export default class RootSiblingsManager {
   }
 }
 
-export function RootSiblingProtal(props: { children: ReactNode }) {
+export function RootSiblingPortal(props: { children: ReactNode }) {
   const [sibling, setSibling] = useState<null | RootSiblingsManager>(null);
 
   if (!sibling) {
