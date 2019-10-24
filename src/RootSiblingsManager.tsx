@@ -62,7 +62,7 @@ export function RootSiblingParent(props: { children: ReactNode }) {
 
   if (!SiblingParent) {
     const { Root: Parent, manager: parentManager } = wrapRootComponent(
-      ChildrenWrapper,
+      () => <ChildrenWrapper>{props.children}</ChildrenWrapper>,
       renderSibling
     );
 
@@ -70,9 +70,9 @@ export function RootSiblingParent(props: { children: ReactNode }) {
     managerStack.push(parentManager);
     setSiblingParent(Parent);
 
-    return <Parent>{props.children}</Parent>;
+    return Parent;
   } else {
-    return <SiblingParent>{props.children}</SiblingParent>;
+    return SiblingParent;
   }
 }
 
