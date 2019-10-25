@@ -1,9 +1,13 @@
-import React from 'react';
-import { FunctionComponent, ReactNode, useEffect, useState } from 'react';
+import React, {
+  FunctionComponent,
+  ReactNode,
+  useEffect,
+  useState
+} from 'react';
 import { AppRegistry } from 'react-native';
 
 import ChildrenWrapper from './ChildrenWrapper';
-import wrapRootComponent from './wrapRootComponent';
+import wrapRootComponent, { RootSiblingManager } from './wrapRootComponent';
 
 let siblingWrapper: (sibling: ReactNode) => ReactNode = sibling => sibling;
 
@@ -22,13 +26,13 @@ export function setSiblingWrapper(wrapper: (sibling: ReactNode) => ReactNode) {
   siblingWrapper = wrapper;
 }
 
-const { Root, manager: rootManager } = wrapRootComponent(
+const { Root, manager: defaultManager } = wrapRootComponent(
   ChildrenWrapper,
   renderSibling
 );
 let uuid: number = 0;
-const managerStack = [rootManager];
-let currentManager = rootManager;
+const managerStack: RootSiblingManager[] = [defaultManager];
+let currentManager = defaultManager;
 
 export default class RootSiblingsManager {
   private id: string;
@@ -49,30 +53,39 @@ export default class RootSiblingsManager {
 }
 
 export function RootSiblingParent(props: { children: ReactNode }) {
-  const [SiblingParent, setSiblingParent] = useState<null | FunctionComponent>(
-    null
-  );
+  const [sibling, setSibling] = useState<null | {
+    Root: FunctionComponent;
+    manager: RootSiblingManager;
+  }>(null);
 
   useEffect(() => {
     return () => {
-      managerStack.pop();
-      currentManager = managerStack[managerStack.length - 1];
+      if (sibling) {
+        const index = managerStack.indexOf(sibling.manager);
+        if (index > 0) {
+          managerStack.splice(index, 1);
+          currentManager = managerStack[managerStack.length - 1];
+        }
+      }
     };
-  }, []);
+  }, [sibling]);
 
-  if (!SiblingParent) {
+  if (!sibling) {
     const { Root: Parent, manager: parentManager } = wrapRootComponent(
-      () => <ChildrenWrapper>{props.children}</ChildrenWrapper>,
+      ChildrenWrapper,
       renderSibling
     );
 
     currentManager = parentManager;
     managerStack.push(parentManager);
-    setSiblingParent(Parent);
-
-    return Parent;
+    setSibling({
+      Root: Parent,
+      manager: parentManager
+    });
+    return <Parent>{props.children}</Parent>;
   } else {
-    return SiblingParent;
+    const Parent = sibling.Root;
+    return <Parent>{props.children}</Parent>;
   }
 }
 

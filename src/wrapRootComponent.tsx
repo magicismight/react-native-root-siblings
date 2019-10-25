@@ -23,7 +23,7 @@ export default function wrapRootComponent<T = {}>(
   const controller = new RootController();
 
   return {
-    Root(props: PropsWithChildren<T>) {
+    Root: (props: PropsWithChildren<T>) => {
       return (
         <RootSiblings controller={controller} renderSibling={renderSibling}>
           <Root {...props} />
