@@ -47,19 +47,21 @@ function getActiveManager(): RootSiblingManager {
 
 export default class RootSiblingsManager {
   private id: string;
+  private manager: RootSiblingManager;
 
   constructor(element: ReactNode, callback?: () => void) {
     this.id = `root-sibling-${uuid + 1}`;
-    getActiveManager().update(this.id, element, callback);
+    this.manager = getActiveManager();
+    this.manager.update(this.id, element, callback);
     uuid++;
   }
 
   public update(element: ReactNode, callback?: () => void) {
-    getActiveManager().update(this.id, element, callback);
+    this.manager.update(this.id, element, callback);
   }
 
   public destroy(callback?: () => void) {
-    getActiveManager().destroy(this.id, callback);
+    this.manager.destroy(this.id, callback);
   }
 }
 
