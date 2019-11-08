@@ -32,27 +32,42 @@ const { Root, manager: defaultManager } = wrapRootComponent(
 );
 let uuid: number = 0;
 const managerStack: RootSiblingManager[] = [defaultManager];
-let currentManager = defaultManager;
+const inactiveManagers: Set<RootSiblingManager> = new Set();
+
+function getActiveManager(): RootSiblingManager {
+  for (let i = managerStack.length - 1; i >= 0; i++) {
+    const manager = managerStack[i];
+    if (!inactiveManagers.has(manager)) {
+      return manager;
+    }
+  }
+
+  return defaultManager;
+}
 
 export default class RootSiblingsManager {
   private id: string;
 
   constructor(element: ReactNode, callback?: () => void) {
     this.id = `root-sibling-${uuid + 1}`;
-    currentManager.update(this.id, element, callback);
+    getActiveManager().update(this.id, element, callback);
     uuid++;
   }
 
   public update(element: ReactNode, callback?: () => void) {
-    currentManager.update(this.id, element, callback);
+    getActiveManager().update(this.id, element, callback);
   }
 
   public destroy(callback?: () => void) {
-    currentManager.destroy(this.id, callback);
+    getActiveManager().destroy(this.id, callback);
   }
 }
 
-export function RootSiblingParent(props: { children: ReactNode }) {
+export function RootSiblingParent(props: {
+  children: ReactNode;
+  inactive?: boolean;
+}) {
+  const { inactive } = props;
   const [sibling, setSibling] = useState<null | {
     Root: FunctionComponent;
     manager: RootSiblingManager;
@@ -64,11 +79,18 @@ export function RootSiblingParent(props: { children: ReactNode }) {
         const index = managerStack.indexOf(sibling.manager);
         if (index > 0) {
           managerStack.splice(index, 1);
-          currentManager = managerStack[managerStack.length - 1];
         }
       }
     };
   }, [sibling]);
+
+  useEffect(() => {
+    if (inactive && sibling) {
+      inactiveManagers.add(sibling.manager);
+    } else if (!inactive && sibling && inactiveManagers.has(sibling.manager)) {
+      inactiveManagers.delete(sibling.manager);
+    }
+  }, [inactive, sibling]);
 
   if (!sibling) {
     const { Root: Parent, manager: parentManager } = wrapRootComponent(
@@ -76,8 +98,11 @@ export function RootSiblingParent(props: { children: ReactNode }) {
       renderSibling
     );
 
-    currentManager = parentManager;
     managerStack.push(parentManager);
+    if (inactive) {
+      inactiveManagers.add(parentManager);
+    }
+
     setSibling({
       Root: Parent,
       manager: parentManager
