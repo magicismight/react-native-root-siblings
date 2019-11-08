@@ -35,7 +35,7 @@ const managerStack: RootSiblingManager[] = [defaultManager];
 const inactiveManagers: Set<RootSiblingManager> = new Set();
 
 function getActiveManager(): RootSiblingManager {
-  for (let i = managerStack.length - 1; i >= 0; i++) {
+  for (let i = managerStack.length - 1; i >= 0; i--) {
     const manager = managerStack[i];
     if (!inactiveManagers.has(manager)) {
       return manager;
