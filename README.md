@@ -1,7 +1,7 @@
 ## react-native-root-siblings [![npm version](https://badge.fury.io/js/react-native-root-siblings.svg)](http://badge.fury.io/js/react-native-root-siblings)
 ---
 
-Require react-native version >= 0.47
+Version 4.x requires react-native version >= 0.59, 3.x requires react-native version >= 0.47
 
 Add sibling elements after your app root element.
 The created sibling elements are above the rest of your app elements.
