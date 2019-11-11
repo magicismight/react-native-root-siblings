@@ -86,13 +86,11 @@ export function RootSiblingParent(props: {
     };
   }, [sibling]);
 
-  useEffect(() => {
-    if (inactive && sibling) {
-      inactiveManagers.add(sibling.manager);
-    } else if (!inactive && sibling && inactiveManagers.has(sibling.manager)) {
-      inactiveManagers.delete(sibling.manager);
-    }
-  }, [inactive, sibling]);
+  if (inactive && sibling && !inactiveManagers.has(sibling.manager)) {
+    inactiveManagers.add(sibling.manager);
+  } else if (!inactive && sibling && inactiveManagers.has(sibling.manager)) {
+    inactiveManagers.delete(sibling.manager);
+  }
 
   if (!sibling) {
     const { Root: Parent, manager: parentManager } = wrapRootComponent(
