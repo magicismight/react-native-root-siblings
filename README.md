@@ -79,7 +79,7 @@ class extends Component {
     render() {
         return (
             <RootSiblingPortal>
-                <View style={[StyleSheet.absoluteFull, { backgroundColor: 'rgba(0, 0, 0, 0.25)' }]} />
+                <View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(0, 0, 0, 0.25)' }]} />
             </RootSiblingPortal>
         )
     }
