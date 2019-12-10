@@ -67,12 +67,14 @@ export default class extends Component<RootSiblingsProps, RootSiblingsState> {
         }
 
         this.siblingsPool = siblings;
-        this.setState(
-          {
-            siblings
-          },
-          () => this.invokeCallback(updateCallback)
-        );
+        setImmediate(() => {
+          this.setState(
+            {
+              siblings
+            },
+            () => this.invokeCallback(updateCallback)
+          );
+        });
       }
     );
   }
