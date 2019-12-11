@@ -70,10 +70,25 @@ export function RootSiblingParent(props: {
   inactive?: boolean;
 }) {
   const { inactive } = props;
-  const [sibling, setSibling] = useState<null | {
+  const [sibling] = useState<{
     Root: FunctionComponent;
     manager: RootSiblingManager;
-  }>(null);
+  }>(() => {
+    const { Root: Parent, manager: parentManager } = wrapRootComponent(
+      ChildrenWrapper,
+      renderSibling
+    );
+
+    managerStack.push(parentManager);
+    if (inactive) {
+      inactiveManagers.add(parentManager);
+    }
+
+    return {
+      Root: Parent,
+      manager: parentManager
+    };
+  });
 
   useEffect(() => {
     return () => {
@@ -92,37 +107,15 @@ export function RootSiblingParent(props: {
     inactiveManagers.delete(sibling.manager);
   }
 
-  if (!sibling) {
-    const { Root: Parent, manager: parentManager } = wrapRootComponent(
-      ChildrenWrapper,
-      renderSibling
-    );
-
-    managerStack.push(parentManager);
-    if (inactive) {
-      inactiveManagers.add(parentManager);
-    }
-
-    setSibling({
-      Root: Parent,
-      manager: parentManager
-    });
-    return <Parent>{props.children}</Parent>;
-  } else {
-    const Parent = sibling.Root;
-    return <Parent>{props.children}</Parent>;
-  }
+  const Parent = sibling.Root;
+  return <Parent>{props.children}</Parent>;
 }
 
 export function RootSiblingPortal(props: { children: ReactNode }) {
-  const [sibling, setSibling] = useState<null | RootSiblingsManager>(null);
+  const [sibling] = useState<RootSiblingsManager>(() => new RootSiblingsManager(null));
 
-  if (!sibling) {
-    setSibling(new RootSiblingsManager(props.children));
-  } else {
-    sibling.update(props.children);
-  }
-
+  sibling.update(props.children);
+  
   useEffect(() => {
     if (sibling) {
       return () => sibling.destroy();
