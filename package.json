@@ -9,14 +9,14 @@
   "main": "./lib/RootSiblingsManager.js",
   "description": "react native root sibling elements manager",
   "scripts": {
-    "lint": "npx tslint ./src/* --fix",
+    "lint": "npx tsc --noEmit && npx eslint \"./src/**/*.@(ts|tsx)\" --fix",
     "test": "echo no tests",
     "precommit": "lint-staged",
     "build": "npx tsc",
     "prepublishOnly": "npm run build"
   },
   "lint-staged": {
-    "*.ts": [
+    "./src/**/*.{ts,tsx}": [
       "npm run lint",
       "git add"
     ]
@@ -25,16 +25,22 @@
     "static-container": "^1.5.1"
   },
   "devDependencies": {
-    "@types/react": "^16.9.2",
-    "@types/react-native": "^0.60.14",
-    "husky": "^3.0.5",
-    "lint-staged": "^9.2.1",
-    "np": "^5.1.0",
-    "prettier": "^1.18.2",
-    "typescript": "^3.6.3",
-    "tslint": "5.10.0",
-    "tslint-config-prettier": "1.18.0",
-    "tslint-plugin-prettier": "^2.0.1"
+    "@types/react": "^16.9.16",
+    "@types/react-native": "^0.60.25",
+    "husky": "^3.1.0",
+    "lint-staged": "^9.5.0",
+    "np": "^5.2.1",
+    "prettier": "^1.19.1",
+    "typescript": "^3.7.3",
+    "@typescript-eslint/eslint-plugin": "^2.6.1",
+    "@typescript-eslint/parser": "^2.6.1",
+    "eslint": "^6.7.2",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-react": "^7.17.0",
+    "eslint-plugin-react-hooks": "^2.3.0",
+    "eslint-plugin-react-native": "^3.8.1"
   },
   "keywords": [
     "react-component",
