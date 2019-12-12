@@ -6,7 +6,7 @@ export enum RootControllerChanges {
   Remove
 }
 
-interface RootControllerAction {
+export interface RootControllerAction {
   change: RootControllerChanges;
   element: ReactNode;
   updateCallback?: () => void;
