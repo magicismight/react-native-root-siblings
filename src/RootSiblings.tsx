@@ -1,7 +1,10 @@
 import React, { Component, ReactChild, ReactNode } from 'react';
 import StaticContainer from 'static-container';
 
-import RootController, { RootControllerChanges } from './RootController';
+import RootController, {
+  RootControllerAction,
+  RootControllerChanges
+} from './RootController';
 
 interface RootSiblingsProps {
   controller: RootController;
@@ -32,51 +35,9 @@ export default class extends Component<RootSiblingsProps, RootSiblingsState> {
   }
 
   public componentDidMount() {
-    this.props.controller.setCallback(
-      (id, { change, element, updateCallback }) => {
-        const siblings = Array.from(this.siblingsPool);
-        const index = siblings.findIndex(sibling => sibling.id === id);
-        if (change === RootControllerChanges.Remove) {
-          if (index > -1) {
-            siblings.splice(index, 1);
-          } else {
-            this.invokeCallback(updateCallback);
-            return;
-          }
-        } else if (change === RootControllerChanges.Update) {
-          if (index > -1) {
-            siblings.splice(index, 1, {
-              element,
-              id
-            });
-            this.updatedSiblings.add(id);
-          } else {
-            this.invokeCallback(updateCallback);
-            return;
-          }
-        } else {
-          if (index > -1) {
-            siblings.splice(index, 1);
-          }
-
-          siblings.push({
-            element,
-            id
-          });
-          this.updatedSiblings.add(id);
-        }
-
-        this.siblingsPool = siblings;
-        setImmediate(() => {
-          this.setState(
-            {
-              siblings
-            },
-            () => this.invokeCallback(updateCallback)
-          );
-        });
-      }
-    );
+    this.props.controller.setCallback((id, change) => {
+      setImmediate(() => this.commitChange(id, change));
+    });
   }
 
   public componentDidUpdate() {
@@ -89,6 +50,51 @@ export default class extends Component<RootSiblingsProps, RootSiblingsState> {
         {this.props.children}
         {this.renderSiblings()}
       </>
+    );
+  }
+
+  private commitChange(
+    id: string,
+    { change, element, updateCallback }: RootControllerAction
+  ) {
+    const siblings = Array.from(this.siblingsPool);
+    const index = siblings.findIndex(sibling => sibling.id === id);
+    if (change === RootControllerChanges.Remove) {
+      if (index > -1) {
+        siblings.splice(index, 1);
+      } else {
+        this.invokeCallback(updateCallback);
+        return;
+      }
+    } else if (change === RootControllerChanges.Update) {
+      if (index > -1) {
+        siblings.splice(index, 1, {
+          element,
+          id
+        });
+        this.updatedSiblings.add(id);
+      } else {
+        this.invokeCallback(updateCallback);
+        return;
+      }
+    } else {
+      if (index > -1) {
+        siblings.splice(index, 1);
+      }
+
+      siblings.push({
+        element,
+        id
+      });
+      this.updatedSiblings.add(id);
+    }
+
+    this.siblingsPool = siblings;
+    this.setState(
+      {
+        siblings
+      },
+      () => this.invokeCallback(updateCallback)
     );
   }
 

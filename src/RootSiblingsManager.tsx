@@ -74,7 +74,7 @@ export function RootSiblingParent(props: {
     Root: FunctionComponent;
     manager: RootSiblingManager;
   }>(() => {
-    const { Root: Parent, manager: parentManager } = wrapRootComponent(
+    const { Root: parentRoot, manager: parentManager } = wrapRootComponent(
       ChildrenWrapper,
       renderSibling
     );
@@ -85,7 +85,7 @@ export function RootSiblingParent(props: {
     }
 
     return {
-      Root: Parent,
+      Root: parentRoot,
       manager: parentManager
     };
   });
@@ -112,10 +112,12 @@ export function RootSiblingParent(props: {
 }
 
 export function RootSiblingPortal(props: { children: ReactNode }) {
-  const [sibling] = useState<RootSiblingsManager>(() => new RootSiblingsManager(null));
+  const [sibling] = useState<RootSiblingsManager>(
+    () => new RootSiblingsManager(null)
+  );
 
   sibling.update(props.children);
-  
+
   useEffect(() => {
     if (sibling) {
       return () => sibling.destroy();
