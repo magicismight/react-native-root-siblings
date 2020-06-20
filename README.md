@@ -9,6 +9,25 @@ This can be used to create a `Modal` component or something should be over your 
 
 # BREAKING CHANGE
 
+## For react native >= 0.62
+
+The [new LogBox component](https://github.com/facebook/react-native/blob/0b9ea60b4fee8cacc36e7160e31b91fc114dbc0d/Libraries/ReactNative/AppRegistry.js#L298-L309) would impact this component's initialization. To make it work we have to explicitly insert a mount point in your app like this:
+
+```
+// in your entry file like `App.js`
+import { RootSiblingParent } from 'react-native-root-siblings';
+
+// in your render function 
+return (
+  <RootSiblingParent>  // <- use RootSiblingParent to wrap your root component
+    <App />
+  </RootSiblingParent>
+);
+            
+```
+
+You can skip this step if your react-native is lower than 0.62. And actually you can inject RootSiblingParent into anywhere like a react portal, for example if you have multiple rootviews you can choose which one to hold the root siblings.
+
 ## 4.x
 From 4.0 the redux store context injection is not enabled by default, the redux store context should be set by a context wrapper.
 
