@@ -42,6 +42,9 @@
     "eslint-plugin-react-hooks": "^2.3.0",
     "eslint-plugin-react-native": "^3.8.1"
   },
+  "peerDependencies": {
+    "prop-types": "^15.5.10"
+  },
   "keywords": [
     "react-component",
     "react-native",
