@@ -1,5 +1,5 @@
 import React, { Component, ReactChild, ReactNode } from 'react';
-import StaticContainer from 'static-container';
+import StaticContainer from './StaticContainer';
 
 import RootController, {
   RootControllerAction,

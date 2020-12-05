@@ -11,7 +11,6 @@
   "scripts": {
     "lint": "npx tsc --noEmit && npx eslint \"./src/**/*.@(ts|tsx)\" --fix",
     "test": "echo no tests",
-    "precommit": "lint-staged",
     "build": "npx tsc",
     "prepublishOnly": "npm run build"
   },
@@ -21,12 +20,9 @@
       "git add"
     ]
   },
-  "dependencies": {
-    "static-container": "^1.5.1"
-  },
   "devDependencies": {
-    "@types/react": "^16.9.16",
-    "@types/react-native": "^0.60.25",
+    "@types/react": "^17.0",
+    "@types/react-native": "^0.63",
     "husky": "^3.1.0",
     "lint-staged": "^9.5.0",
     "np": "^5.2.1",
@@ -42,14 +38,16 @@
     "eslint-plugin-react-hooks": "^2.3.0",
     "eslint-plugin-react-native": "^3.8.1"
   },
-  "peerDependencies": {
-    "prop-types": "^15.5.10"
-  },
   "keywords": [
     "react-component",
     "react-native",
     "modal",
     "ios",
     "android"
-  ]
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  }
 }
