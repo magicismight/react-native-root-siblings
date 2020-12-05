@@ -1,5 +1,5 @@
 {
-  "version": "4.0.6",
+  "version": "4.1.0",
   "name": "react-native-root-siblings",
   "repository": {
     "type": "git",
@@ -23,11 +23,6 @@
   "devDependencies": {
     "@types/react": "^17.0",
     "@types/react-native": "^0.63",
-    "husky": "^3.1.0",
-    "lint-staged": "^9.5.0",
-    "np": "^5.2.1",
-    "prettier": "^1.19.1",
-    "typescript": "^3.7.3",
     "@typescript-eslint/eslint-plugin": "^2.6.1",
     "@typescript-eslint/parser": "^2.6.1",
     "eslint": "^6.7.2",
@@ -36,7 +31,12 @@
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-react-hooks": "^2.3.0",
-    "eslint-plugin-react-native": "^3.8.1"
+    "eslint-plugin-react-native": "^3.8.1",
+    "husky": "^3.1.0",
+    "lint-staged": "^9.5.0",
+    "np": "^5.2.1",
+    "prettier": "^1.19.1",
+    "typescript": "^3.7.3"
   },
   "keywords": [
     "react-component",
