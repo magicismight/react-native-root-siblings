@@ -109,7 +109,6 @@ class extends Component {
 ### EXAMPLE
 
 ```js
-'use strict';
 import React, {
     AppRegistry,
     View,
