@@ -7,7 +7,7 @@
     "esModuleInterop": true,
     "moduleResolution": "node",
     "lib": ["dom","es2015", "es2016", "esnext"],
-    "jsx": "react-native",
+    "jsx": "react-jsx",
     "outDir": "./lib"
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"],
