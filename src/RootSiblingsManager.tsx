@@ -1,10 +1,10 @@
 import React, {
-  FunctionComponent,
+  ComponentType,
+  PropsWithChildren,
   ReactNode,
   useEffect,
   useState
 } from 'react';
-import { AppRegistry } from 'react-native';
 
 import ChildrenWrapper from './ChildrenWrapper';
 import wrapRootComponent, { RootSiblingManager } from './wrapRootComponent';
@@ -15,18 +15,11 @@ function renderSibling(sibling: ReactNode): ReactNode {
   return siblingWrapper(sibling);
 }
 
-if (!global.__rootSiblingsInjected && !global.__rootSiblingsDisabled) {
-  AppRegistry.setWrapperComponentProvider(() => {
-    return Root;
-  });
-  global.__rootSiblingsInjected = true;
-}
-
 export function setSiblingWrapper(wrapper: (sibling: ReactNode) => ReactNode) {
   siblingWrapper = wrapper;
 }
 
-const { Root, manager: defaultManager } = wrapRootComponent(
+const { manager: defaultManager } = wrapRootComponent(
   ChildrenWrapper,
   renderSibling
 );
@@ -71,7 +64,7 @@ export function RootSiblingParent(props: {
 }) {
   const { inactive } = props;
   const [sibling] = useState<{
-    Root: FunctionComponent;
+    Root: ComponentType<PropsWithChildren>;
     manager: RootSiblingManager;
   }>(() => {
     const { Root: parentRoot, manager: parentManager } = wrapRootComponent(

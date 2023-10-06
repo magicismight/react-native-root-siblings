@@ -1,5 +1,5 @@
 {
-  "extends": ["prettier", "prettier/react", "plugin:prettier/recommended", "prettier/@typescript-eslint"],
+  "extends": ["prettier", "plugin:prettier/recommended"],
   "plugins": ["react", "react-native", "import", "@typescript-eslint"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {

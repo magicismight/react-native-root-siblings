@@ -6,7 +6,7 @@
     "declaration": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
-    "lib": ["es2015", "es2016", "esnext"],
+    "lib": ["dom","es2015", "es2016", "esnext"],
     "jsx": "react-native",
     "outDir": "./lib"
   },

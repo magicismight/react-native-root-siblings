@@ -1,65 +1,95 @@
 ## react-native-root-siblings [![npm version](https://badge.fury.io/js/react-native-root-siblings.svg)](http://badge.fury.io/js/react-native-root-siblings)
 ---
 
-Version 4.x requires react-native version >= 0.59, 3.x requires react-native version >= 0.47
 
-Add sibling elements after your app root element.
-The created sibling elements are above the rest of your app elements.
-This can be used to create a `Modal` component or something should be over your app.
+The easiest way to create overlays(`Modal`, `Popover`, `Dialog` etc) for both `react` and `react-native`. 
 
-# BREAKING CHANGE
+Make your own `showModal` and use it in any component without any `isShow` state or even in a pure function call.
 
-## For react native >= 0.62
+```jsx
+import { ReactNode } from 'react';
+import RootSiblingsManager from 'react-native-root-siblings';
 
-The [new LogBox component](https://github.com/facebook/react-native/blob/0b9ea60b4fee8cacc36e7160e31b91fc114dbc0d/Libraries/ReactNative/AppRegistry.js#L298-L309) would impact this component's initialization. To make it work we have to explicitly insert a mount point in your app like this:
+export const showModal = (renderModal) => {
+  let rootNode;
+  const onClose = () => {
+    rootNode?.destroy();
+    rootNode = null;
+  };
+  rootNode = new RootSiblingsManager(renderModal(onClose));
+  return onClose;
+};
 
-```
-// in your entry file like `App.js`
-import { RootSiblingParent } from 'react-native-root-siblings';
+import WelcomeModal from './WelcomeModal';
 
-// in your render function 
-return (
-  <RootSiblingParent>  // <- use RootSiblingParent to wrap your root component
-    <App />
-  </RootSiblingParent>
-);
-            
-```
+export function showWelcomeModal() {
+  showModal((onClose) => <WelcomeModal onClose={onClose} />);
+}
 
-You can skip this step if your react-native is lower than 0.62. And actually you can inject RootSiblingParent into anywhere like a react portal, for example if you have multiple rootviews you can choose which one to hold the root siblings.
+// ...
+function HomeScreen() {
+  return <Button onClick={showWelcomeModal}>Welcome!</Button>
+}
 
-## 4.x
-From 4.0 the redux store context injection is not enabled by default, the redux store context should be set by a context wrapper.
-
-```
-import { setSiblingWrapper } from 'react-native-root-siblings';
-import { Provider } from 'react-redux';
-
-// const store = ... get store;
-
-// Call this before using redux context inside RootSiblings.
-setSiblingWrapper((sibling) => <Provider store={store}>{sibling}</Provider>);
+setTimeout(showWelcomeModal, 3000);
 ```
 
-You can also use `setSiblingWrapper` to provide other context into each sibling node.
 
-
-## 3.x
-From 3.0 the default style has been removed from the element.
-https://github.com/magicismight/react-native-root-siblings/commit/75b1f65502f41a5ecad0d17fd8d6ebb400365928
-
-### Add it to your project
+### Installation
 
 Run `npm install react-native-root-siblings --save`
 
-### USAGE
-This library can add element above the root app component registered by `AppRegistry.registerComponent`.
+### Usage
 
-#### Class API
+Insert `RootSiblingParent` between your providers and root app in your root render function.
+
+```jsx
+import { RootSiblingParent } from 'react-native-root-siblings';
+
+return (
+  <SomeProviders>
+    <RootSiblingParent>  // <- use RootSiblingParent to wrap your root component
+      <App />
+    </RootSiblingParent>
+  </SomeProviders>
+);      
+```
+
+`RootSiblingParent` works as a mounting base and can be mounted multiple times. Only the last mounted one would be active.
+
+In react native, a view has a higher hierarchy if it's more deep in the dom tree.
+
+```jsx
+<RootSiblingParent>
+  <RootView>  //  <- the highest view
+    <NavigationView>
+      <ScreenView>  //  <- the lowest view
+       { /* what if you want to show a fullscreen modal here?
+          * usually you have to use a Native Modal which is even higher than RootView
+          * but it's buggy and has a lot of limitations
+          */}
+        <RootSiblingPortal>
+        { /* View put in here would be transported to RootSiblingParent 
+            * So it can have a same hierarchy as the RootView to cover any other views
+            */}
+          <View>
+          </View>
+        </RootSiblingPortal>
+      </ScreenView>
+    </NavigationView>
+  </View>
+</RootSiblingParent>
+```
+
+In react we have `createPortal` but still it's not so convenient as it can not be used outside of a component. 
+
+`react-native-root-siblings` provides the most possible flexibility:
+
+#### Imperative API
 
 1. Create sibling element
 
-```js
+```jsx
 let sibling = new RootSiblings(<View
     style={{top: 0,right: 0,bottom: 0,left: 0,backgroundColor: 'red'}}
 />);
@@ -67,11 +97,11 @@ let sibling = new RootSiblings(<View
 
 This will create a View element cover all of your app elements,
 and returns a sibling instance.
-You can create a sibling anywhere inside your react native code.
+You can create a sibling anywhere, no matter in a component, hook or even a pure function.
 
 2. Update sibling element
 
-```js
+```jsx
 sibling.update(<View
     style={{top: 10,right: 10,bottom: 10,left: 10,backgroundColor: 'blue'}}
 />);
@@ -90,7 +120,7 @@ This will remove the sibling element.
 
 #### Component API
 
-```
+```jsx
 import { RootSiblingPortal } from 'react-native-root-siblings';
 
 
@@ -108,7 +138,7 @@ class extends Component {
 
 ### EXAMPLE
 
-```js
+```jsx
 import React, {
     AppRegistry,
     View,

@@ -1,9 +1,4 @@
-import React, {
-  ComponentType,
-  FunctionComponent,
-  PropsWithChildren,
-  ReactNode
-} from 'react';
+import React, { ComponentType, PropsWithChildren, ReactNode } from 'react';
 
 import RootController from './RootController';
 import RootSiblings from './RootSiblings';
@@ -13,17 +8,17 @@ export interface RootSiblingManager {
   destroy(id: string, callback?: () => void): void;
 }
 
-export default function wrapRootComponent<T = {}>(
+export default function wrapRootComponent<T extends PropsWithChildren>(
   Root: ComponentType<T>,
   renderSibling?: (sibling: ReactNode) => ReactNode
 ): {
-  Root: FunctionComponent<T>;
+  Root: ComponentType<T>;
   manager: RootSiblingManager;
 } {
   const controller = new RootController();
 
   return {
-    Root: (props: PropsWithChildren<T>) => {
+    Root: (props: T) => {
       return (
         <RootSiblings controller={controller} renderSibling={renderSibling}>
           <Root {...props} />

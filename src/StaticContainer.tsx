@@ -1,7 +1,8 @@
-import { Component, Children } from 'react';
+import { Component, Children, ReactNode } from 'react';
 
 interface Props {
   shouldUpdate: boolean;
+  children: ReactNode;
 }
 export default class extends Component<Props> {
   shouldComponentUpdate(nextProps: Props) {

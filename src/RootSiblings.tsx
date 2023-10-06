@@ -1,4 +1,4 @@
-import React, { Component, ReactChild, ReactNode } from 'react';
+import React, { Component, ReactNode } from 'react';
 import StaticContainer from './StaticContainer';
 
 import RootController, {
@@ -9,7 +9,7 @@ import RootController, {
 interface RootSiblingsProps {
   controller: RootController;
   renderSibling?: (sibling: ReactNode) => ReactNode;
-  children: ReactChild;
+  children?: ReactNode;
 }
 
 interface RootSiblingsState {
@@ -36,7 +36,7 @@ export default class extends Component<RootSiblingsProps, RootSiblingsState> {
 
   public componentDidMount() {
     this.props.controller.setCallback((id, change) => {
-      setImmediate(() => this.commitChange(id, change));
+      setTimeout(() => this.commitChange(id, change));
     });
   }
 
