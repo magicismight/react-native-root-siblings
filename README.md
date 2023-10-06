@@ -5,7 +5,6 @@ The easiest way to create overlays(`Modal`, `Popover`, `Dialog` etc) for both `r
 Make your own `showModal` and use it in any component without any `isShow` state or even in a pure function call.
 
 ```jsx
-import { ReactNode } from 'react';
 import RootSiblingsManager from 'react-native-root-siblings';
 
 export const showModal = (renderModal) => {
@@ -241,9 +240,3 @@ var styles = StyleSheet.create({
 ```
 
 ![screen shoot](./Examples/screen-shoot.gif)
-
-## RUN EXAMPLE
-
-1. fork this repository
-2. change dictionary to `Examples`
-3. run `npm i`
