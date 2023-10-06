@@ -1,6 +1,4 @@
 ## react-native-root-siblings [![npm version](https://badge.fury.io/js/react-native-root-siblings.svg)](http://badge.fury.io/js/react-native-root-siblings)
----
-
 
 The easiest way to create overlays(`Modal`, `Popover`, `Dialog` etc) for both `react` and `react-native`. 
 
@@ -34,12 +32,14 @@ function HomeScreen() {
 setTimeout(showWelcomeModal, 3000);
 ```
 
+---
+
 
 ## Installation
 
-Run `npm install react-native-root-siblings --save`
-
-## Usage
+```sh
+npm i react-native-root-siblings
+```
 
 Insert `RootSiblingParent` between your providers and root app in your root render function.
 
@@ -84,6 +84,10 @@ In react native, a view has a higher hierarchy if it's more close to the root le
 In react we have `createPortal` but still it's not so convenient as it can not be used outside of a component. 
 
 `react-native-root-siblings` provides the most possible flexibility:
+
+
+
+## Usage
 
 ### Imperative API
 
