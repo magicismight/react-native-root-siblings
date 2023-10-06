@@ -35,11 +35,11 @@ setTimeout(showWelcomeModal, 3000);
 ```
 
 
-### Installation
+## Installation
 
 Run `npm install react-native-root-siblings --save`
 
-### Usage
+## Usage
 
 Insert `RootSiblingParent` between your providers and root app in your root render function.
 
@@ -57,7 +57,7 @@ return (
 
 `RootSiblingParent` works as a mounting base and can be mounted multiple times. Only the last mounted one would be active.
 
-In react native, a view has a higher hierarchy if it's more deep in the dom tree.
+In react native, a view has a higher hierarchy if it's more close to the root level.
 
 ```jsx
 <RootSiblingParent>
@@ -85,7 +85,7 @@ In react we have `createPortal` but still it's not so convenient as it can not b
 
 `react-native-root-siblings` provides the most possible flexibility:
 
-#### Imperative API
+### Imperative API
 
 1. Create sibling element
 
@@ -118,7 +118,7 @@ sibling.destroy();
 This will remove the sibling element.
 
 
-#### Component API
+### Component API
 
 ```jsx
 import { RootSiblingPortal } from 'react-native-root-siblings';
@@ -136,7 +136,7 @@ class extends Component {
 
 ```
 
-### EXAMPLE
+## EXAMPLE
 
 ```jsx
 import React, {
@@ -238,7 +238,7 @@ var styles = StyleSheet.create({
 
 ![screen shoot](./Examples/screen-shoot.gif)
 
-### RUN EXAMPLE
+## RUN EXAMPLE
 
 1. fork this repository
 2. change dictionary to `Examples`
