@@ -3,7 +3,7 @@
   "name": "react-native-root-siblings",
   "repository": {
     "type": "git",
-    "url": "git@github.com:magicismight/react-native-root-siblings.git"
+    "url": "https://github.com/magicismight/react-native-root-siblings"
   },
   "files": [
     "lib"
